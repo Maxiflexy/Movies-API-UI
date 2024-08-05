@@ -6,4 +6,4 @@ const Home = ({movies}) => {
   )
 }
 
-export default Home
+export default Home;
