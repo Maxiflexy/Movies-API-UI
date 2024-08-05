@@ -6,7 +6,7 @@ import ReviewForm from "../reviewForm/ReviewForm";
 
 import React from "react";
 
-const Reviews = ({ getMovieData, movie, reviews, setReviews }) => {
+const Reviews = ({ getMovieData, movie, reviews = [], setReviews }) => {
   const revText = useRef();
   let params = useParams();
   const movieId = params.movieId;
@@ -26,7 +26,9 @@ const Reviews = ({ getMovieData, movie, reviews, setReviews }) => {
         imdbId: movieId,
       });
 
-      const updatedReviews = [...reviews, { body: rev.value }];
+      const updatedReviews = Array.isArray(reviews)
+        ? [...reviews, { body: rev.value }]
+        : [{ body: rev.value }];
 
       rev.value = "";
 
@@ -66,20 +68,21 @@ const Reviews = ({ getMovieData, movie, reviews, setReviews }) => {
               </Row>
             </>
           }
-          {reviews?.map((r) => {
-            return (
-              <>
-                <Row>
-                  <Col>{r.body}</Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <hr />
-                  </Col>
-                </Row>
-              </>
-            );
-          })}
+          {Array.isArray(reviews) &&
+            reviews.map((r, index) => {
+              return (
+                <React.Fragment key={index}>
+                  <Row>
+                    <Col>{r.body}</Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <hr />
+                    </Col>
+                  </Row>
+                </React.Fragment>
+              );
+            })}
         </Col>
       </Row>
       <Row>

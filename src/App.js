@@ -3,11 +3,11 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import Layout from "./components/Layout";
 import { Routes, Route } from "react-router-dom";
-import Home from './components/home/Home';
-import Header from './components/header/Header';
-import Trailer from './components/trailer/Trailer';
-import Reviews from './components/reviews/Reviews';
-// import NotFound from './components/notFound/NotFound';
+import Home from "./components/home/Home";
+import Header from "./components/header/Header";
+import Trailer from "./components/trailer/Trailer";
+import Reviews from "./components/reviews/Reviews";
+import NotFound from "./components/notFound/NotFound";
 
 function App() {
   const [movies, setMovies] = useState();
@@ -24,13 +24,27 @@ function App() {
     }
   };
 
+  const getMovieData = async (movieId) => {
+    try {
+      const response = await api.get(`/api/v1/movies/${movieId}`);
+
+      const singleMovie = response.data;
+
+      setMovie(singleMovie);
+
+      setReviews(singleMovie.reviews);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     getMovies();
   }, []);
 
   return (
     <div className="App">
-      {/* <Header/> */}
+      <Header />
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route path="/" element={<Home movies={movies} />}></Route>
@@ -46,7 +60,7 @@ function App() {
               />
             }
           ></Route>
-          <Route path="*" element={<NotFound />}></Route> */}
+          <Route path="*" element={<NotFound />}></Route>
         </Route>
       </Routes>
     </div>
