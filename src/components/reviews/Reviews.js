@@ -12,6 +12,7 @@ const Reviews = ({ getMovieData, movie, reviews = [], setReviews }) => {
   const movieId = params.movieId;
 
   useEffect(() => {
+    
     getMovieData(movieId);
   }, []);
 
